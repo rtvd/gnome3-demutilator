@@ -28,22 +28,30 @@ gsettings set org.gnome.desktop.wm.keybindings activate-window-menu "['<Super>sp
 
 cat << EOF
 
-Now setting Ctrl+Super+left/right/1..9 to switch to virtual workspaces,
-  and Shift+Ctrl+Super+left/right/1..9 to move windows to other virtual workspaces ...
+Now setting Super+1..9 to switch to specific virtual workspaces,
+and Ctrl+Super+left/right to switch to the left/right virtual workspace like in Windows 11.
 
 EOF
 
 for i in $(seq 1 9)
 do
-  gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-${i} "['<Shift><Ctrl><Super>${i}']"
-  gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-${i} "['<Ctrl><Super>${i}']"
+  gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-${i} "['<Super>${i}']"
 done
 
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-left "['<Shift><Ctrl><Super>Left']"
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left "['<Ctrl><Super>Left']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-left "['<Ctrl><Super>Left', '<Super>Left']"
+gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right "['<Ctrl><Super>Right', '<Super>Left']"
 
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-right "['<Shift><Ctrl><Super>Right']"
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right "['<Ctrl><Super>Right']"
+
+cat << EOF
+
+Also using Ctrl+Super+s to toggle the window's "sticky"ness (presence on all virtual workspaces).
+
+This allows you to move the window anywhere you want by making it sticky first by pressing Ctrl+Super+s,
+switching to a different virtual workspace, and making it non-sticky again but pressing Ctrl+Super+s again.
+
+EOF
+
+gsettings set org.gnome.desktop.wm.keybindings toggle-on-all-workspaces "['<Ctrl><Super>s']"
 
 echo "'Caps Lock' is mostly unused as SCREAMING is not in vogue. Re-using it as a Compose key ..."
 gsettings set org.gnome.desktop.input-sources xkb-options "['compose:caps']"
